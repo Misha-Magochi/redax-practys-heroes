@@ -1,29 +1,33 @@
-import React, {Component} from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import HeroesList from '../heroesList/HeroesList';
 import HeroesAddForm from '../heroesAddForm/HeroesAddForm';
 import HeroesFilters from '../heroesFilters/HeroesFilters';
+import { heroesAdded } from '../../actions';
 
 import './app.scss';
 
-class App extends Component {
-    state = {
-        heroes: [],
-        term: '',
-    };
+const App = () => {
+
+    const dispatch = useDispatch();
+
+    const handleAddHero = (newHero) => {
+        dispatch(heroesAdded(newHero));
+      };
     
-render() {
+
     return (
         <main className="app">
             <div className="content">
-                <HeroesList /* heroes={heroes} *//>
+                <HeroesList />
                 <div className="content__interactive">
-                    <HeroesAddForm/>
+                    <HeroesAddForm onAddHero={handleAddHero} />
                     <HeroesFilters/>
                 </div>
             </div>
         </main>
     )
 }
-}
+
 
 export default App;

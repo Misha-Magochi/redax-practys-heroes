@@ -9,17 +9,51 @@
 // Дополнительно:
 // Элементы <option></option> желательно сформировать на базе
 // данных из фильтров
-import React  from "react";
+import React, {useState}  from "react";
 import { connect } from "react-redux";
-/* import { v4 as uuidv4 } from 'uuid'; */
-/* import { heroesDeleted } from "../../actions"; */
+import { v4 as uuidv4 } from 'uuid';
+/* import { heroesAdded } from "../../actions"; */
 
 
-const HeroesAddForm = ({ dispatch}) => {
+const HeroesAddForm = ({ dispatch, handleSubmit}) => {
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [element, setElement] = useState("");
+    
+    const handleInputChange = (e) => {
+        setName(e.target.value);
+      };
+    
+      const handleTextareaChange = (e) => {
+        setDescription(e.target.value);
+      };
+    
+      const handleSelectChange = (e) => {
+        setElement(e.target.value);
+      };
+    
+      const handleFormSubmit = (e) => {
+        e.preventDefault();
+    
+        const id = uuidv4();
+    
+        const newHero = {
+          id,
+          name,
+          description,
+          element
+        };
+    
+        handleSubmit(newHero);
+    
+        setName("");
+        setDescription("");
+        setElement("");
+      };
 
-   
+
     return (
-        <form className="border p-4 shadow-lg rounded" /* onSubmit={handlerSubmit} */>
+        <form className="border p-4 shadow-lg rounded" onSubmit={handleSubmit}>
             <div className="mb-3">
                 <label htmlFor="name" className="form-label fs-4">Имя нового героя</label>
                 <input 
@@ -29,8 +63,8 @@ const HeroesAddForm = ({ dispatch}) => {
                     className="form-control" 
                     id="name" 
                     placeholder="Как меня зовут?"
-/*                     value={name}
-                    onChange={(e) => setname(e.target.value)} */
+                    value={name}
+                    onChange={handleInputChange}
                     />
             </div>
 
@@ -43,8 +77,8 @@ const HeroesAddForm = ({ dispatch}) => {
                     id="text" 
                     placeholder="Что я умею?"
                     style={{"height": '130px'}}
-/*                     value={description}
-                    onChange={(e) => setDescription(e.target.value)} */
+                    value={description}
+                    onChange={handleTextareaChange}
                     />
             </div>
 
@@ -55,8 +89,8 @@ const HeroesAddForm = ({ dispatch}) => {
                     className="form-select" 
                     id="element" 
                     name="element"
-/*                     value={element}
-                    onChange={(e) => setElement(e.target.value)} */
+                    value={element}
+                    onChange={handleSelectChange}
                     >
                     <option >Я владею элементом...</option>
                     <option value="fire">Огонь</option>
@@ -66,7 +100,9 @@ const HeroesAddForm = ({ dispatch}) => {
                 </select>
             </div>
 
-            <button type="submit" className="btn btn-primary">Создать</button>
+            <button type="submit"
+             className="btn btn-primary"
+             onClick={handleSubmit}>Создать</button>
         </form>
     )
 }

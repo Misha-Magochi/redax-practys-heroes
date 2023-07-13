@@ -1,15 +1,15 @@
 import React from "react";
 
 
-
-
-
-const HeroesListItem = ({name, description, element, onButtonClick, id}) => {
+const HeroesListItem = ({name, description, element, onButtonClick, handleSubmit}) => {
 
     const handleClick = () => {
         onButtonClick();
+        handleSubmit({ name, description, element });
     };
 
+    
+    
     let elementClassName;
 
     switch (element) {
@@ -28,8 +28,6 @@ const HeroesListItem = ({name, description, element, onButtonClick, id}) => {
         default:
             elementClassName = 'bg-warning bg-gradient';
     }
-
-
 
     return (
         <li 
